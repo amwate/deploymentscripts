@@ -1,0 +1,8 @@
+{
+    "name": "test",
+    "ipAddress" : "12.12.1.1.",
+    "location": "eastus2euap",
+    "addressPrefixes": [
+        "10.1.1.0/24"
+    ]
+}
