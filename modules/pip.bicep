@@ -1,5 +1,7 @@
 param location string = resourceGroup().location
-param vmPipName string
+param prefix string
+
+var vmPipName = '${prefix}-pip'
 
 
 resource pip 'Microsoft.Network/publicIPAddresses@2022-07-01' = {

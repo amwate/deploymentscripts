@@ -9,8 +9,7 @@ module vngs 'vng.bicep' = [for i in range(0, num):{
     activeactive: activeactive
     prefix: 'vng-${i}'
   }
-}
-]
+}]
 
 // Create 2 Lngs
 module lng 'lng.bicep' = [for i in range(0, num):{
@@ -34,7 +33,7 @@ module connections 'connection.bicep' = [for i in range(0, num):{
     connectionType: 'IPsec'
     location: location
     virtualNetworkGatewayId: vngs[i].outputs.vngId
-    localNetworkGatewayId: lng[i].outputs.localNetworkGatewayId
+    localNetworkGatewayId: lng[num-1-i].outputs.localNetworkGatewayId
     connectionName: 'connection-${i}'
   }
 

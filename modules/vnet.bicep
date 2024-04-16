@@ -1,5 +1,7 @@
 param location string = resourceGroup().location
 param prefix string = uniqueString(resourceGroup().id)
+
+var vnetName = '${prefix}-vnet'
 param gatewaySubnetPrefixes array = [
   '10.0.0.0/24'
   '2001:db8:abcd:11::/64'
@@ -13,7 +15,6 @@ param defaultSubnetPrefixes array = [
   '2001:db8:abcd:12::/64'
 ]
 
-var vnetName = '${prefix}-vnet'
 var defaultSubnetName = 'default'
 var gatewaySubnetName = 'GatewaySubnet'
 

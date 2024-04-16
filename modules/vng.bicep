@@ -4,17 +4,19 @@ param activeactive bool = true
 
 var randomPrefix = '${prefix}-${uniqueString(resourceGroup().id)}'
 var vngName = '${randomPrefix}-vng'
+var vmName = '${randomPrefix}-winVM'
+var vnetName = '${randomPrefix}-vnet'
 
 module pip '../modules/pip.bicep'  = {
   name : '${prefix}-pip'
   params:{
     location: location
-    vmPipName: randomPrefix
+    prefix: randomPrefix
   }
 }
 
 module vnet '../modules/vnet.bicep' = {
-  name : '${prefix}-vnet'
+  name : vnetName 
   params:{
     location: location
     prefix : randomPrefix
@@ -22,12 +24,11 @@ module vnet '../modules/vnet.bicep' = {
 }
 
 module vm '../modules/vm-nic.bicep' = {
-  name : '${prefix}-winVM'
+  name : vmName 
   params:{
-    prefix: '${prefix}-winVM'
+    prefix: randomPrefix
     subnetId: vnet.outputs.defaultSubnetId
     location: location
-    prefix: randomPrefix
   }
 
   dependsOn:[
@@ -48,14 +49,14 @@ resource virtualNetworkGateway 'Microsoft.Network/virtualNetworkGateways@2020-11
             id: vnet.outputs.gatewaySubnetId
           }
           publicIPAddress: {
-            id: pip.outputs.pipv4Id
+            id: pip.outputs.vmPipId
           }
         }
       }
     ]
     sku: {
-      name: 'VpnGw1'
-      tier: 'VpnGw1'
+      name: 'VpnGw2'
+      tier: 'VpnGw2'
     }
     gatewayType: 'Vpn'
     vpnType: 'RouteBased'
@@ -73,4 +74,5 @@ resource virtualNetworkGateway 'Microsoft.Network/virtualNetworkGateways@2020-11
     vnet
   ]
 }
-
+output vngName string = virtualNetworkGateway.name
+output vngId string = virtualNetworkGateway.id

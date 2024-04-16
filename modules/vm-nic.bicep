@@ -19,11 +19,11 @@ module vm 'vm.bicep' = {
   name: vmName
   params:{
     location: location
-    resourceName: vmName
+    prefix: prefix
     adminPassword: 'TestAdmin@12345'
     adminUsername: 'testvmadmin'
     nicIds:[
-        resourceId('Microsoft.Network/networkInterfaces', nicName)
+      nic.outputs.id
     ]
   }
   dependsOn:[

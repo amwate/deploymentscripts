@@ -11,7 +11,7 @@ module pip '../modules/pip.bicep' = {
   name : pipName
   params:{
     location: location
-    vmPipName : 'vmpip-${uniqueString(resourceName)}'
+    prefix : prefix 
   }
 }
 

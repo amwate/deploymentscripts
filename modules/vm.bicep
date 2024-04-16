@@ -1,16 +1,16 @@
 @minLength(1)
 param nicIds array
-
 @secure()
 param adminPassword string
-
-param resourceName string
 param location string = resourceGroup().location
 param adminUsername string = 'testvmadmin'
-param prefix string = uniqueString(resourceGroup().id)
+param prefix string 
+
+
+var vmName = '${prefix}-winVM'
 
 resource windowsVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
-  name: resourceName
+  name: vmName
   location: location
   properties: {
     hardwareProfile: {
@@ -29,7 +29,7 @@ resource windowsVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
         version: 'latest'
       }
       osDisk: {
-        name: '${resourceName}-disk'
+        name: '${vmName}-disk'
         caching: 'ReadWrite'
         createOption: 'FromImage'
       }
@@ -41,3 +41,5 @@ resource windowsVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
     }  
   }
 }
+
+output vmId string = windowsVM.id
