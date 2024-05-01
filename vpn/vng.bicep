@@ -2,8 +2,12 @@ param location string = resourceGroup().location
 param prefix string = 'amwate'
 param activeactive bool = true
 param deployVM bool = true
-param sku string = 'VpnGw2'
-param tier string = 'VpnGw2'
+param sku string = 'VpnGw5'
+param tier string = 'VpnGw5'
+param vnetAddressPrefix array
+param subnetAddressPrefix array
+param gatewaySubnetAddressPrefix array
+
 param enableBgp bool = true
 
 var randomPrefix = '${prefix}-${uniqueString(resourceGroup().id)}'
@@ -18,6 +22,9 @@ module vnet '../modules/vnet.bicep' = {
   params:{
     location: location
     prefix : randomPrefix
+    vnetPrefixes: vnetAddressPrefix
+    defaultSubnetPrefixes: subnetAddressPrefix
+    gatewaySubnetPrefixes: gatewaySubnetAddressPrefix
   }
 }
 
@@ -70,6 +77,7 @@ resource virtualNetworkGateway 'Microsoft.Network/virtualNetworkGateways@2020-11
     vpnType: 'RouteBased'
     enableBgp: enableBgp
     activeActive: activeactive
+    vpnGatewayGeneration: 'Generation2'
 
     bgpSettings: {
       asn : 65010

@@ -8,6 +8,9 @@ module vngs 'vng.bicep' = [for i in range(0, num):{
     location: location 
     activeactive: activeactive
     prefix: 'vng-${i}'
+    vnetAddressPrefix: [ '10.${i}.0.0/16', '2001:db8:abc${i}::/48' ]
+    subnetAddressPrefix: [ '10.${i}.1.0/24', '2001:db8:abc${i}:11::/64' ]
+    gatewaySubnetAddressPrefix: ['10.${i}.0.0/24', '2001:db8:abc${i}:12::/64']
   }
 }]
 
@@ -17,7 +20,7 @@ module lng 'lng.bicep' = [for i in range(0, num):{
   params: {
     location: location
     ipAddress: vngs[i].outputs.pipArray[0]
-    addressPrefixes: [ '10.1.1.0/24', 'ace:bde::/64' ]
+    addressPrefixes: [ '10.${i}.1.0/24', '2001:db8:abc${i}:11::/64' ]
     name: 'lng-${i}'
   }
 

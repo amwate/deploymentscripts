@@ -1,6 +1,6 @@
 param(
     [Parameter(Mandatory)]
-    [ValidateSet("CBN", "CDM", "karna")] $environment, 
+    [ValidateSet("CBN", "CDM", "karna", "BrkNrpSlice4")] $environment, 
     [Parameter(Mandatory)]      $rgName,
     $prefix = "amwate", 
     [string] $templateParameterFile,
